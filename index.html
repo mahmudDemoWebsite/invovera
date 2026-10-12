@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101828" />
+  <meta name="description" content="Invovera — create polished invoices and quotations in minutes." />
+  <title>Invovera — Invoice & Quotation Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Invovera home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M11 6.5h12l7 7V33H11V6.5Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 6.5v7h7M16 20h9M16 25h9M16 30h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="m9 12-3 3v19h19l3-3" stroke="#42D6A4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="brand-copy"><strong>invovera</strong><small>INVOICE STUDIO</small></span>
+      </a>
+      <div class="topbar-right">
+        <span class="local-save"><span class="save-dot"></span> Saved locally in this browser</span>
+        <button class="button button-primary button-small" id="topPrintBtn" type="button"><span aria-hidden="true">↗</span> Print / Save PDF</button>
+      </div>
+    </header>
+
+    <main id="top" class="main-content">
+      <section class="intro-row">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> YOUR BUSINESS, BEAUTIFULLY BILLED</div>
+          <h1>Documents that make<br class="desktop-break" /> business <span>feel effortless.</span></h1>
+          <p class="intro-text">Create a polished invoice or quotation in minutes. Edit the details, add your services, and export a print-ready document.</p>
+        </div>
+        <div class="intro-stat" aria-label="Document types available"><span class="stat-icon">✳</span><div><strong>2-in-1</strong><small>Invoice + Quotation</small></div></div>
+      </section>
+
+      <section class="workspace" aria-label="Invoice editor and live document preview">
+        <aside class="editor-panel panel">
+          <div class="panel-heading">
+            <div><span class="section-kicker">WORKSPACE</span><h2>Document details</h2></div>
+            <button type="button" class="icon-button" id="resetBtn" title="Reset document" aria-label="Reset document">↻</button>
+          </div>
+
+          <div class="document-switch" role="group" aria-label="Choose document type">
+            <button type="button" class="switch-option active" data-doc-type="invoice" aria-pressed="true"><span class="switch-symbol">▤</span> Invoice</button>
+            <button type="button" class="switch-option" data-doc-type="quotation" aria-pressed="false"><span class="switch-symbol">≋</span> Quotation</button>
+          </div>
+
+          <form id="documentForm" autocomplete="on">
+            <section class="form-section">
+              <div class="form-section-title"><span class="step-number">01</span><h3>Your business</h3></div>
+              <div class="field-grid">
+                <label class="field field-full"><span>Business / brand name</span><input id="businessName" name="businessName" value="Your Business Name" maxlength="100" required /></label>
+                <label class="field field-full"><span>Business address</span><input id="businessAddress" name="businessAddress" value="Feni, Bangladesh" maxlength="160" /></label>
+                <label class="field"><span>Email address</span><input id="businessEmail" name="businessEmail" type="email" placeholder="hello@yourbusiness.com" maxlength="120" /></label>
+                <label class="field"><span>Phone number</span><input id="businessPhone" name="businessPhone" placeholder="+880 1XXX-XXXXXX" maxlength="40" /></label>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="form-section-title"><span class="step-number">02</span><h3>Client details</h3></div>
+              <div class="field-grid">
+                <label class="field field-full"><span>Client / company name</span><input id="clientName" name="clientName" placeholder="e.g. Acme Studio" maxlength="100" /></label>
+                <label class="field field-full"><span>Client address</span><input id="clientAddress" name="clientAddress" placeholder="Street, city, country" maxlength="160" /></label>
+                <label class="field"><span>Client email</span><input id="clientEmail" name="clientEmail" type="email" placeholder="client@example.com" maxlength="120" /></label>
+                <label class="field"><span>Document number</span><input id="documentNumber" name="documentNumber" value="INV-2026-001" maxlength="50" required /></label>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="form-section-title"><span class="step-number">03</span><h3>Dates & currency</h3></div>
+              <div class="field-grid">
+                <label class="field"><span>Issue date</span><input id="issueDate" name="issueDate" type="date" required /></label>
+                <label class="field"><span id="dueDateLabel">Due date</span><input id="dueDate" name="dueDate" type="date" /></label>
+                <label class="field field-full"><span>Currency</span><select id="currency" name="currency"><option value="BDT">BDT — Bangladeshi Taka (৳)</option><option value="USD">USD — US Dollar ($)</option><option value="EUR">EUR — Euro (€)</option><option value="GBP">GBP — Pound Sterling (£)</option><option value="INR">INR — Indian Rupee (₹)</option></select></label>
+              </div>
+            </section>
+
+            <section class="form-section items-section">
+              <div class="form-section-title items-title"><span class="step-number">04</span><div><h3>Items & services</h3><p>Add each product or service to your document.</p></div></div>
+              <div class="items-editor" id="itemsEditor"></div>
+              <button type="button" class="button button-add" id="addItemBtn"><span>＋</span> Add an item</button>
+            </section>
+
+            <section class="form-section">
+              <div class="form-section-title"><span class="step-number">05</span><h3>Adjustments</h3></div>
+              <div class="field-grid">
+                <label class="field"><span>Discount (%)</span><div class="input-suffix"><input id="discount" name="discount" type="number" min="0" max="100" step="0.01" value="0" /><span>%</span></div></label>
+                <label class="field"><span>VAT / tax (%)</span><div class="input-suffix"><input id="tax" name="tax" type="number" min="0" max="100" step="0.01" value="0" /><span>%</span></div></label>
+              </div>
+            </section>
+
+            <section class="form-section last-form-section">
+              <div class="form-section-title"><span class="step-number">06</span><h3>Notes & payment</h3></div>
+              <div class="field-grid">
+                <label class="field field-full"><span id="notesLabel">Notes / terms</span><textarea id="notes" name="notes" rows="3" maxlength="600" placeholder="Thank you for your business."></textarea></label>
+                <label class="field field-full"><span>Payment details (optional)</span><textarea id="paymentDetails" name="paymentDetails" rows="2" maxlength="300" placeholder="Bank, account name, mobile payment details..." ></textarea></label>
+              </div>
+            </section>
+          </form>
+          <div class="editor-footer"><span class="keyboard-tip"><kbd>Tip</kbd> Changes update the preview instantly.</span><button class="text-button" type="button" id="clearSavedBtn">Clear saved draft</button></div>
+        </aside>
+
+        <section class="preview-column">
+          <div class="preview-toolbar"><div><span class="preview-live-dot"></span><span>LIVE PREVIEW</span></div><span class="preview-size">A4 DOCUMENT</span></div>
+          <article class="document-paper" id="documentPreview" aria-label="Live invoice or quotation preview">
+            <div class="paper-topline"></div>
+            <div class="paper-header">
+              <div class="paper-brand-block">
+                <div class="paper-logo" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M11 6.5h12l7 7V33H11V6.5Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 6.5v7h7M16 20h9M16 25h9M16 30h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="m9 12-3 3v19h19l3-3" stroke="#42D6A4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="paper-business-name" id="previewBusinessName">Your Business Name</div><div class="paper-business-sub" id="previewBusinessMeta">Feni, Bangladesh</div><div class="paper-business-sub" id="previewBusinessContact"></div></div>
+              </div>
+              <div class="paper-doc-title"><span class="paper-doc-label" id="previewDocLabel">INVOICE</span><div class="paper-doc-number" id="previewDocNumber">INV-2026-001</div><span class="paper-status" id="previewStatus">PAYMENT REQUEST</span></div>
+            </div>
+
+            <div class="paper-rule"></div>
+            <div class="paper-parties">
+              <div class="party-block"><span class="paper-label">BILL TO</span><strong id="previewClientName">Client / Company Name</strong><span id="previewClientAddress">Client address will appear here</span><span id="previewClientEmail"></span></div>
+              <div class="paper-dates"><div><span class="paper-label">ISSUED ON</span><strong id="previewIssueDate">—</strong></div><div><span class="paper-label" id="previewDueLabel">DUE DATE</span><strong id="previewDueDate">—</strong></div></div>
+            </div>
+
+            <div class="paper-table-wrap"><table class="paper-table"><thead><tr><th class="th-item">DESCRIPTION</th><th class="th-qty">QTY</th><th class="th-rate">RATE</th><th class="th-amount">AMOUNT</th></tr></thead><tbody id="previewItems"></tbody></table></div>
+
+            <div class="paper-bottom-grid">
+              <div class="paper-note-area"><div class="paper-note" id="previewNotesBlock"><span class="paper-label" id="previewNotesHeading">NOTES</span><p id="previewNotes">Thank you for your business.</p></div><div class="paper-note payment-note" id="previewPaymentBlock"><span class="paper-label">PAYMENT DETAILS</span><p id="previewPaymentDetails"></p></div></div>
+              <div class="paper-totals"><div class="total-row"><span>Subtotal</span><strong id="previewSubtotal">৳0.00</strong></div><div class="total-row" id="previewDiscountRow"><span>Discount (<b id="previewDiscountPct">0</b>%)</span><strong id="previewDiscount">− ৳0.00</strong></div><div class="total-row" id="previewTaxRow"><span>VAT / tax (<b id="previewTaxPct">0</b>%)</span><strong id="previewTax">৳0.00</strong></div><div class="grand-total"><span id="previewGrandLabel">TOTAL DUE</span><strong id="previewGrandTotal">৳0.00</strong></div><div class="currency-note" id="previewCurrencyNote">All amounts in BDT</div></div>
+            </div>
+            <div class="paper-footer"><span>Thank you for working with us.</span><span id="previewFooterBrand">Your Business Name</span></div>
+          </article>
+          <div class="preview-footnote"><span class="footnote-icon">✓</span> Your document is formatted for printing or saving as PDF. Review details before sending it to a client.</div>
+        </section>
+      </section>
+    </main>
+    <footer class="site-footer"><span>© <span id="footerYear"></span> Invovera Studio</span><span>Simple documents. Stronger business.</span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
